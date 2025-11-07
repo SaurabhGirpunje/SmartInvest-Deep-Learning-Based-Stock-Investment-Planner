@@ -1,0 +1,22 @@
+{
+    "CNN": {
+        "RMSE": 42.5879,
+        "MAE": 31.5959,
+        "RMSE/Mean": 0.0279
+    },
+    "LSTM": {
+        "RMSE": 41.092,
+        "MAE": 31.2046,
+        "RMSE/Mean": 0.0269
+    },
+    "Hybrid": {
+        "RMSE": 41.9436,
+        "MAE": 30.9632,
+        "RMSE/Mean": 0.0275
+    },
+    "Transformer": {
+        "RMSE": 360.3959,
+        "MAE": 357.6012,
+        "RMSE/Mean": 0.2362
+    }
+}

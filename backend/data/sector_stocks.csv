@@ -1,0 +1,111 @@
+Sector,Company Name,NSE Code,Weight (%)
+Auto,Mahindra & Mahindra Ltd.,M&M,24.55
+Auto,Maruti Suzuki India Ltd.,MARUTI,16.87
+Auto,Bajaj Auto Ltd.,BAJAJ-AUTO,7.83
+Auto,Eicher Motors Ltd.,EICHERMOT,7.66
+Auto,Tata Motors Passenger Vehicles Ltd.,TATAMOTORS,6.8
+Auto,TVS Motor Company Ltd.,TVSMOTOR,6.54
+Auto,Hero MotoCorp Ltd.,HEROMOTOCO,5.72
+Auto,Dummy Tata Motors Ltd.,TATAMOTORS,4.33
+Auto,Samvardhana Motherson International Ltd.,MOTHERSON,3.72
+Auto,Ashok Leyland Ltd.,ASHOKLEY,3.22
+Chemicals,Pidilite Industries Ltd.,PIDILITIND,12.39
+Chemicals,SRF Ltd.,SRF,11.76
+Chemicals,UPL Ltd.,UPL,11.32
+Chemicals,Solar Industries India Ltd.,SOLARINDS,9.34
+Chemicals,PI Industries Ltd.,PIIND,8.01
+Chemicals,Coromandel International Ltd.,COROMANDEL,6.93
+Chemicals,Navin Fluorine International Ltd.,NAVINFLUOR,5.78
+Chemicals,Gujarat Fluorochemicals Ltd.,FLUOROCHEM,4.23
+Chemicals,Tata Chemicals Ltd.,TATACHEM,3.85
+Chemicals,Linde India Ltd.,LINDEINDIA,3.5
+FMCG,ITC Ltd.,ITC,33.98
+FMCG,Hindustan Unilever Ltd.,HINDUNILVR,18.75
+FMCG,Nestle India Ltd.,NESTLEIND,7.81
+FMCG,Tata Consumer Products Ltd.,TATACONSUM,6.5
+FMCG,Britannia Industries Ltd.,BRITANNIA,5.9
+FMCG,Varun Beverages Ltd.,VBL,5.45
+FMCG,Godrej Consumer Products Ltd.,GODREJCP,3.86
+FMCG,United Spirits Ltd.,MCDOWELL-N,3.62
+FMCG,Marico Ltd.,MARICO,3.27
+FMCG,Colgate Palmolive (India) Ltd.,COLPAL,2.53
+Healthcare,Sun Pharmaceutical Industries Ltd.,SUNPHARMA,18.15
+Healthcare,Divi's Laboratories Ltd.,DIVISLAB,8.72
+Healthcare,Max Healthcare Institute Ltd.,MAXHEALTH,8.69
+Healthcare,Cipla Ltd.,CIPLA,8.6
+Healthcare,Apollo Hospitals Enterprise Ltd.,APOLLOHOSP,7.91
+Healthcare,Dr. Reddy's Laboratories Ltd.,DRREDDY,7.43
+Healthcare,Fortis Healthcare Ltd.,FORTIS,5.43
+Healthcare,Lupin Ltd.,LUPIN,4.84
+Healthcare,Torrent Pharmaceuticals Ltd.,TORNTPHARM,3.79
+Healthcare,Laurus Labs Ltd.,LAURUSLABS,3.77
+IT,Infosys Ltd.,INFY,28.26
+IT,Tata Consultancy Services Ltd.,TCS,21.84
+IT,HCL Technologies Ltd.,HCLTECH,11.42
+IT,Tech Mahindra Ltd.,TECHM,9.01
+IT,Wipro Ltd.,WIPRO,6.84
+IT,Persistent Systems Ltd.,PERSISTENT,6.32
+IT,Coforge Ltd.,COFORGE,5.92
+IT,LTIMindtree Ltd.,LTIM,5.25
+IT,MphasiS Ltd.,MPHASIS,3.13
+IT,Oracle Financial Services Software Ltd.,OFSS,2.01
+Media,Zee Entertainment Enterprises Ltd.,ZEEL,23.03
+Media,PVR INOX Ltd.,PVRINOX,21.4
+Media,Sun TV Network Ltd.,SUNTV,13.8
+Media,Nazara Technologies Ltd.,NAZARA,13.28
+Media,Saregama India Ltd,SAREGAMA,8.47
+Media,Network18 Media & Investments Ltd.,NETWORK18,7.79
+Media,Tips Music Ltd.,TIPSINDLTD,6.04
+Media,D.B.Corp Ltd.,DBCORP,3.15
+Media,Hathway Cable & Datacom Ltd.,HATHWAY,1.52
+Media,Prime Focus Ltd,PFOCUS,1.5
+Metal,Tata Steel Ltd.,TATASTEEL,19.88
+Metal,Hindalco Industries Ltd.,HINDALCO,16.15
+Metal,JSW Steel Ltd.,JSWSTEEL,14.86
+Metal,Vedanta Ltd.,VEDL,11.01
+Metal,Adani Enterprises Ltd.,ADANIENT,8.5
+Metal,Jindal Steel Ltd.,JINDALSTEL,5.24
+Metal,APL Apollo Tubes Ltd.,APLAPOLLO,4.27
+Metal,NMDC Ltd.,NMDC,3.44
+Metal,Jindal Stainless Ltd.,JSL,3.18
+Metal,National Aluminium Co. Ltd.,NATIONALUM,2.76
+Pharma,Sun Pharmaceutical Industries Ltd.,SUNPHARMA,22.19
+Pharma,Divi's Laboratories Ltd.,DIVISLAB,10.66
+Pharma,Cipla Ltd.,CIPLA,10.51
+Pharma,Dr. Reddy's Laboratories Ltd.,DRREDDY,9.09
+Pharma,Lupin Ltd.,LUPIN,5.91
+Pharma,Torrent Pharmaceuticals Ltd.,TORNTPHARM,4.64
+Pharma,Laurus Labs Ltd.,LAURUSLABS,4.61
+Pharma,Aurobindo Pharma Ltd.,AUROPHARMA,3.97
+Pharma,Alkem Laboratories Ltd.,ALKEM,3.86
+Pharma,Glenmark Pharmaceuticals Ltd.,GLENMARK,3.55
+PrivateBank,HDFC Bank Ltd.,HDFCBANK,21.02
+PrivateBank,Axis Bank Ltd.,AXISBANK,19.83
+PrivateBank,ICICI Bank Ltd.,ICICIBANK,19.77
+PrivateBank,Kotak Mahindra Bank Ltd.,KOTAKBANK,19.6
+PrivateBank,Federal Bank Ltd.,FEDERALBNK,4.74
+PrivateBank,IDFC First Bank Ltd.,IDFCFIRSTB,4.41
+PrivateBank,IndusInd Bank Ltd.,INDUSINDBK,4.27
+PrivateBank,Yes Bank Ltd.,YESBANK,3.65
+PrivateBank,RBL Bank Ltd.,RBLBANK,1.59
+PrivateBank,Bandhan Bank Ltd.,BANDHANBNK,1.11
+PSUBank,State Bank of India,SBIN,32.44
+PSUBank,Bank of Baroda,BANKBARODA,14.56
+PSUBank,Canara Bank,CANBK,13.08
+PSUBank,Punjab National Bank,PNB,12.0
+PSUBank,Indian Bank,INDIANB,8.6
+PSUBank,Union Bank of India,UNIONBANK,8.14
+PSUBank,Bank of India,BOI,4.82
+PSUBank,Bank of Maharashtra,MAHABANK,2.63
+PSUBank,Indian Overseas Bank,IOB,1.18
+PSUBank,Central Bank of India,CENTRALBK,1.09
+OilGas,Reliance Industries Ltd.,RELIANCE,33.42
+OilGas,Oil & Natural Gas Corporation Ltd.,ONGC,14.86
+OilGas,Bharat Petroleum Corporation Ltd.,BPCL,10.36
+OilGas,Indian Oil Corporation Ltd.,IOC,9.28
+OilGas,GAIL (India) Ltd.,GAIL,7.38
+OilGas,Hindustan Petroleum Corporation Ltd.,HINDPETRO,6.85
+OilGas,Oil India Ltd.,OIL,3.54
+OilGas,Petronet LNG Ltd.,PETRONET,3.16
+OilGas,Adani Total Gas Ltd.,ATGL,2.62
+OilGas,Indraprastha Gas Ltd.,IGL,2.23
