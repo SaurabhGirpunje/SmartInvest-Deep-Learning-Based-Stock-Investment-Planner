@@ -1,3 +1,6 @@
 # first create env
 python -m venv stockprojvenv
 
+ .\stockprojvenv\Scripts\activate
+
+
