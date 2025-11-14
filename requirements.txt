@@ -1,0 +1,6 @@
+PyPDF2
+requests
+pandas
+openpyxl
+yfinance
+scikit-learn
