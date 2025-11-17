@@ -1,3 +1,5 @@
+# stock_name.py
+
 import os, requests, re, PyPDF2, csv, json
 import pandas as pd
 from scripts.config import SECTOR_LINKS, RAW_PDF_DIR, DATA_DIR
@@ -17,7 +19,7 @@ def download_sector_pdfs():
 
 
 # Extracting Stocks Name 
-def extract_top_stocks(num_top=10):
+def extract_top_stocks(num_top=5):
     top_stocks = {}
     for pdf_file in os.listdir(RAW_PDF_DIR):
         sector = pdf_file.replace(".pdf", "")

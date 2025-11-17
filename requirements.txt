@@ -4,3 +4,6 @@ pandas
 openpyxl
 yfinance
 scikit-learn
+tensorflow
+matplotlib
+tqdm

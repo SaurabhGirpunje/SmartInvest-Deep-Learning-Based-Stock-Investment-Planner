@@ -23,9 +23,10 @@ SECTOR_LINKS = {
     "Media": "https://www.niftyindices.com/Factsheet/ind_nifty_media.pdf",
     "Metal": "https://www.niftyindices.com/Factsheet/ind_nifty_metal.pdf",
     "Pharma": "https://www.niftyindices.com/Factsheet/ind_nifty_pharma.pdf",
-    "PrivateBank": "https://www.niftyindices.com/Factsheet/ind_nifty_private_bank.pdf",
-    "PSUBank": "https://www.niftyindices.com/Factsheet/ind_nifty_psu_bank.pdf",
-    "OilGas": "https://www.niftyindices.com/Factsheet/Factsheet_nifty_oil_and_gas.pdf"
+    # "PrivateBank": "https://www.niftyindices.com/Factsheet/ind_nifty_private_bank.pdf",
+    # "PSUBank": "https://www.niftyindices.com/Factsheet/ind_nifty_psu_bank.pdf",
+    "OilGas": "https://www.niftyindices.com/Factsheet/Factsheet_nifty_oil_and_gas.pdf",
+    "Bank": "https://www.niftyindices.com/Factsheet/ind_nifty_bank.pdf"
 }
 
 # --- Dates ---
