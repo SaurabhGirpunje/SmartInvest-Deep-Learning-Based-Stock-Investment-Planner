@@ -233,26 +233,29 @@ if "theme" not in st.session_state:
 apply_theme_css(st.session_state.theme)
 
 nav_html = textwrap.dedent(f"""
-<div class="navbar">
-  <div style="display:flex;align-items:center;gap:14px;">
-    <div style="font-size:26px;font-weight:700;">📈 Stock Prediction & Portfolio</div>
-    <div style="font-size:13px;color:rgba(0,0,0,0.45);"> — Dashboard</div>
+<div class="navbar" style="
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:80px;
+">
+  <div style="display:flex; align-items:center; gap:14px;">
+    <div style="font-size:42px; font-weight:900;">📈 Deep Trade Navigator</div>
+    <div style="font-size:16px; color:rgba(0,0,0,0.45); margin-top:8px;">— Dashboard</div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <div style="font-size:13px;"><small>Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M')}</small></div>
-    <!-- theme toggle -->
-    <div>
+</div>
 """)
+
 st.markdown(nav_html + "</div></div>", unsafe_allow_html=True)
 
-cols_theme = st.columns([1, 6, 1])
-with cols_theme[2]:
-    new_theme = st.selectbox("Theme", options=["Dark", "Light"], index=0 if st.session_state.theme == "Dark" else 1)
-    if new_theme != st.session_state.theme:
-        st.session_state.theme = new_theme
-        apply_theme_css(st.session_state.theme)
-        # st.experimental_rerun()
-        st.rerun()
+# cols_theme = st.columns([1, 6, 1])
+# with cols_theme[2]:
+#     new_theme = st.selectbox("Theme", options=["Dark", "Light"], index=0 if st.session_state.theme == "Dark" else 1)
+#     if new_theme != st.session_state.theme:
+#         st.session_state.theme = new_theme
+#         apply_theme_css(st.session_state.theme)
+#         # st.experimental_rerun()
+#         st.rerun()
 
 
 st.markdown('<div class="hr-subtle"></div>', unsafe_allow_html=True)
@@ -811,7 +814,7 @@ elif mode == "Portfolio Builder":
                         "Stock": s,
                         "Amt_Invstd": round(float(invested_mvp.get(s, 0.0)), 2),
                         "ActualPrice_1May": round(price_cut, 2) if not pd.isna(price_cut) else np.nan,
-                        "Shares": float(shares_mvp.get(s, 0.0)),
+                        "Shares": round(float(shares_mvp.get(s, 0.0)),2),
                         "ActualPrice_1Oct": round(price_eval_act, 2) if not pd.isna(price_eval_act) else np.nan,
                         "ActualValue": round(float(shares_mvp.get(s, 0.0) * (price_eval_act if not pd.isna(price_eval_act) else 0.0)), 2),
                         "PredPrice_1Oct": round(price_eval_pred, 2) if not pd.isna(price_eval_pred) else np.nan,
@@ -822,7 +825,7 @@ elif mode == "Portfolio Builder":
                         "Stock": s,
                         "Amt_Invstd": round(float(invested_msr.get(s, 0.0)), 2),
                         "ActualPrice_1May": round(price_cut, 2) if not pd.isna(price_cut) else np.nan,
-                        "Shares": float(shares_msr.get(s, 0.0)),
+                        "Shares": round(float(shares_msr.get(s, 0.0)),2),
                         "ActualPrice_1Oct": round(price_eval_act, 2) if not pd.isna(price_eval_act) else np.nan,
                         "ActualValue": round(float(shares_msr.get(s, 0.0) * (price_eval_act if not pd.isna(price_eval_act) else 0.0)), 2),
                         "PredPrice_1Oct": round(price_eval_pred, 2) if not pd.isna(price_eval_pred) else np.nan,
@@ -871,13 +874,13 @@ elif mode == "Portfolio Builder":
                     # Multi-index header like the image
                     df.columns = pd.MultiIndex.from_tuples([
                         ("Stock", "Stock"),
-                        (f"Date: {start_date_str}", "Amt Invstd"),
-                        (f"Date: {start_date_str}", "Act Price"),
-                        (f"Date: {start_date_str}", "No of Stocks"),
-                        (f"Date: {end_date_str}", "Act Price"),
-                        (f"Date: {end_date_str}", "Act Val"),
-                        (f"Date: {end_date_str}", "Pred Price"),
-                        (f"Date: {end_date_str}", "Pred Val")
+                        (f"Date: {start_date_str}", "Amount Invested (₹)"),
+                        (f"Date: {start_date_str}", "Actual Price (₹)"),
+                        (f"Date: {start_date_str}", "No. of Stocks"),
+                        (f"Date: {end_date_str}", "Actual Price (₹)"),
+                        (f"Date: {end_date_str}", "Actual Value (₹)"),
+                        (f"Date: {end_date_str}", "Predicted Price (₹)"),
+                        (f"Date: {end_date_str}", "Predicted Value (₹)")
                     ])
 
                     return df
@@ -894,8 +897,8 @@ elif mode == "Portfolio Builder":
                     "MVP",
                     rows_mvp,
                     invested_mvp.sum(),
-                    actual_value_mvp.sum(),
-                    pred_value_mvp.sum(),
+                    round(actual_value_mvp.sum(),2),
+                    round(pred_value_mvp.sum(),2),
                     mvp_actual_roi,
                     mvp_pred_roi
                 )
@@ -904,10 +907,10 @@ elif mode == "Portfolio Builder":
                     "MSR",
                     rows_msr,
                     invested_msr.sum(),
-                    actual_value_msr.sum(),
-                    pred_value_msr.sum(),
+                    round(actual_value_msr.sum(),2),
+                    round(pred_value_msr.sum(),2),
                     msr_actual_roi,
-                    msr_pred_roi
+                    msr_pred_roi    
                 )
 
 
@@ -1207,10 +1210,10 @@ elif mode == "Portfolio Builder":
                 st.markdown("#### Weight Allocation Table")
                 st.dataframe(pipeline_results["weight_table"])
 
-                st.markdown("#### Stock Table — MVP (sampled)")
+                st.markdown("#### Stock Table — MVP")
                 st.dataframe(pipeline_results["stock_table_mvp"])
 
-                st.markdown("#### Stock Table — MSR (sampled)")
+                st.markdown("#### Stock Table — MSR")
                 st.dataframe(pipeline_results["stock_table_msr"])
 
 # # Footer
