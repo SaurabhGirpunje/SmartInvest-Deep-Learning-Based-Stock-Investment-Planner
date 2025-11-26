@@ -1197,6 +1197,8 @@ elif mode == "Portfolio Builder":
                 st.markdown("#### Efficient Frontier")
                 st.plotly_chart(pipeline_results["fig_frontier"], use_container_width=True)
 
+                st.markdown("<br>", unsafe_allow_html=True)  # Add a line break
+                
                 # Allocation and Risk Contribution side-by-side
                 colA, colB = st.columns(2)
                 with colA:
@@ -1207,6 +1209,7 @@ elif mode == "Portfolio Builder":
                     st.plotly_chart(pipeline_results["fig_rc"], use_container_width=True)
 
                 # Tables
+                st.markdown("<br>", unsafe_allow_html=True)  # Add a line break
                 st.markdown("#### Weight Allocation Table")
                 df = pipeline_results["weight_table"]
 
@@ -1232,8 +1235,12 @@ elif mode == "Portfolio Builder":
                 st.markdown(html_table, unsafe_allow_html=True)
                 st.markdown("</div>", unsafe_allow_html=True)
 
+                st.markdown("<br>", unsafe_allow_html=True)  # Add a line break
+
                 st.markdown("#### Stock Table — Minimum Variance Portfolio")
                 st.dataframe(pipeline_results["stock_table_mvp"])
+
+                st.markdown("<br>", unsafe_allow_html=True)  # Add a line break
 
                 st.markdown("#### Stock Table — Mean Variance Portfolio")
                 st.dataframe(pipeline_results["stock_table_msr"])
