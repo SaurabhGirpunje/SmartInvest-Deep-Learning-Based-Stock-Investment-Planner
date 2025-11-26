@@ -266,16 +266,16 @@ pred_value_msr   = shares_msr * price_on_eval_pred   + cash_left_msr * (1.0 if n
 # ---------------- Build Weight Allocation table (Option A style)
 weight_table = pd.DataFrame({
     "Stock": tickers_10,
-    "Min-Risk": w_mvp_series.round(6).values,
-    "Opt-Risk": w_msr_series.round(6).values
+    "Minimum Risk": w_mvp_series.round(6).values,
+    "Mean Risk": w_msr_series.round(6).values
 })
 
 weight_table = pd.concat([
     weight_table,
     pd.DataFrame([{
         "Stock": "Annual Return (%)",
-        "Min-Risk": round(mvp_ret_pct, 2),
-        "Opt-Risk": round(msr_ret_pct, 2)
+        "Minimum Risk": round(mvp_ret_pct, 2),
+        "Mean Risk": round(msr_ret_pct, 2)
     }])
 ], ignore_index=True)
 
@@ -283,8 +283,8 @@ weight_table = pd.concat([
     weight_table,
     pd.DataFrame([{
         "Stock": "Annual Risk (%)",
-        "Min-Risk": round(mvp_vol_pct, 2),
-        "Opt-Risk": round(msr_vol_pct, 2)
+        "Minimum Risk": round(mvp_vol_pct, 2),
+        "Mean Risk": round(msr_vol_pct, 2)
     }])
 ], ignore_index=True)
 
@@ -314,16 +314,16 @@ for s in tickers_10:
         "PredValue": round(float(shares_msr[s] * price_on_eval_pred[s]), 2)
     })
 
-stock_table_mvp = pd.DataFrame(rows_mvp)
-stock_table_msr = pd.DataFrame(rows_msr)
+stock_table_minimumVP = pd.DataFrame(rows_mvp)
+stock_table_meanVP = pd.DataFrame(rows_msr)
 
-stock_table_mvp.loc[len(stock_table_mvp)] = {
+stock_table_minimumVP.loc[len(stock_table_minimumVP)] = {
     "Stock": "TOTAL",
     "Amt_Invstd": round(invested_mvp.sum(), 2),
     "ActualValue": round(actual_value_mvp.sum(), 2),
     "PredValue": round(pred_value_mvp.sum(), 2)
 }
-stock_table_msr.loc[len(stock_table_msr)] = {
+stock_table_meanVP.loc[len(stock_table_meanVP)] = {
     "Stock": "TOTAL",
     "Amt_Invstd": round(invested_msr.sum(), 2),
     "ActualValue": round(actual_value_msr.sum(), 2),
@@ -338,7 +338,7 @@ summary_rows = []
 act_end = actual_value_mvp.sum()
 pred_end = pred_value_mvp.sum()
 summary_rows.append({
-    "Portfolio": "MVP",
+    "Portfolio": "Minimum Variance",
     "StartValue": initial_capital,
     "ActualEndValue": round(float(act_end), 2),
     "PredEndValue": round(float(pred_end), 2),
@@ -349,7 +349,7 @@ summary_rows.append({
 act_end = actual_value_msr.sum()
 pred_end = pred_value_msr.sum()
 summary_rows.append({
-    "Portfolio": "OPR (MaxSharpe)",
+    "Portfolio": "Mean Variance",
     "StartValue": initial_capital,
     "ActualEndValue": round(float(act_end), 2),
     "PredEndValue": round(float(pred_end), 2),
@@ -362,29 +362,29 @@ summary_table = pd.DataFrame(summary_rows)
 
 # ---------------- Save outputs
 os.makedirs(output_root, exist_ok=True)
-os.makedirs("output", exist_ok=True)
+# os.makedirs("output", exist_ok=True)
 
 weight_table.to_csv(os.path.join(output_root, "weight_allocation_table.csv"), index=False)
-stock_table_mvp.to_csv(os.path.join(output_root, "stock_table_mvp.csv"), index=False)
-stock_table_msr.to_csv(os.path.join(output_root, "stock_table_opr.csv"), index=False)
+stock_table_minimumVP.to_csv(os.path.join(output_root, "stock_table_minimumVP.csv"), index=False)
+stock_table_meanVP.to_csv(os.path.join(output_root, "stock_table_meanVP.csv"), index=False)
 summary_table.to_csv(os.path.join(output_root, "portfolio_summary.csv"), index=False)
 
 # legacy output copies
 weight_table.to_csv("output/weight_allocation_table.csv", index=False)
-stock_table_mvp.to_csv("output/stock_table_mvp.csv", index=False)
-stock_table_msr.to_csv("output/stock_table_opr.csv", index=False)
+stock_table_minimumVP.to_csv("output/stock_table_minimumVP.csv", index=False)
+stock_table_meanVP.to_csv("output/stock_table_meanVP.csv", index=False)
 summary_table.to_csv("output/portfolio_summary.csv", index=False)
 
 with pd.ExcelWriter(os.path.join(output_root, "portfolio_results_clean.xlsx"), engine="openpyxl") as writer:
     weight_table.to_excel(writer, sheet_name="Weight_Allocation", index=False)
-    stock_table_mvp.to_excel(writer, sheet_name="Stock_Table_MVP", index=False)
-    stock_table_msr.to_excel(writer, sheet_name="Stock_Table_OPR", index=False)
+    stock_table_minimumVP.to_excel(writer, sheet_name="Stock_Table_MinimumVP", index=False)
+    stock_table_meanVP.to_excel(writer, sheet_name="Stock_Table_MeanVP", index=False)
     summary_table.to_excel(writer, sheet_name="Portfolio_Summary", index=False)
 
 with pd.ExcelWriter("output/portfolio_results_clean.xlsx", engine="openpyxl") as writer:
     weight_table.to_excel(writer, sheet_name="Weight_Allocation", index=False)
-    stock_table_mvp.to_excel(writer, sheet_name="Stock_Table_MVP", index=False)
-    stock_table_msr.to_excel(writer, sheet_name="Stock_Table_OPR", index=False)
+    stock_table_minimumVP.to_excel(writer, sheet_name="Stock_Table_MinimumVP", index=False)
+    stock_table_meanVP.to_excel(writer, sheet_name="Stock_Table_MeanVP", index=False)
     summary_table.to_excel(writer, sheet_name="Portfolio_Summary", index=False)
 
 # ---------------- Efficient frontier (compute via quadratic solves) ----------------
@@ -479,14 +479,14 @@ fig_frontier.add_trace(go.Scatter(
     name="Random Portfolios"
 ))
 
-# EF curve
-fig_frontier.add_trace(go.Scatter(
-    x=frontier_vols_pct,
-    y=frontier_rets_pct,
-    mode="lines",
-    line=dict(width=3, color="black"),
-    name="Efficient Frontier"
-))
+# # EF curve
+# fig_frontier.add_trace(go.Scatter(
+#     x=frontier_vols_pct,
+#     y=frontier_rets_pct,
+#     mode="lines",
+#     line=dict(width=3, color="black"),
+#     name="Efficient Frontier"
+# ))
 
 # MVP (from random sampling)
 fig_frontier.add_trace(go.Scatter(
@@ -494,9 +494,9 @@ fig_frontier.add_trace(go.Scatter(
     y=[mvp_ret_pct],
     mode="markers+text",
     marker=dict(size=14, color="red", symbol="star"),
-    text=["MVP"],
+    text=["Min Var"],
     textposition="top center",
-    name="Min Variance (sampled)"
+    name="Minimum Variance"
 ))
 
 # MSR (from random sampling)
@@ -505,9 +505,9 @@ fig_frontier.add_trace(go.Scatter(
     y=[msr_ret_pct],
     mode="markers+text",
     marker=dict(size=14, color="green", symbol="star"),
-    text=["MSR"],
+    text=["Mean Var"],
     textposition="top center",
-    name="Max Sharpe (sampled)"
+    name="Mean Variance"
 ))
 
 # EW
@@ -522,7 +522,7 @@ fig_frontier.add_trace(go.Scatter(
 ))
 
 fig_frontier.update_layout(
-    title="Efficient Frontier — Random Sampling + EF Curve",
+    title="Efficient Frontier Plot",
     xaxis_title="Annual Volatility (%)",
     yaxis_title="Annual Return (%)",
     template="plotly_white",
@@ -546,11 +546,11 @@ except Exception as e:
 alloc = pd.Series(w_msr_series.values, index=tickers_10)
 alloc_nonzero = alloc[alloc > 0]
 
-fig_pie = go.Figure(data=[go.Pie(labels=alloc_nonzero.index, values=alloc_nonzero.values, hole=0.3)])
-fig_pie.update_layout(title="Asset Allocation (MSR - sampled)")
+fig_pie = go.Figure(data=[go.Pie(labels=alloc_nonzero.index, values=alloc_nonzero.values, hole=0.4)])
+fig_pie.update_layout(title="Asset Allocation (Mean Variance)")
 
-pie_png = os.path.join(output_root, "allocation_pie_msr_sampled.png")
-pie_html = os.path.join(output_root, "allocation_pie_msr_sampled.html")
+pie_png = os.path.join(output_root, "allocation_pie_mean_variance.png")
+pie_html = os.path.join(output_root, "allocation_pie_mean_variance.html")
 try:
     fig_pie.write_image(pie_png, engine="kaleido", scale=2)
     print(f"Saved allocation pie PNG: {pie_png}")
@@ -574,10 +574,10 @@ rc_series = pd.Series(rc_pct, index=present_tickers).sort_values(ascending=False
 
 fig_rc = go.Figure()
 fig_rc.add_trace(go.Bar(x=rc_series.index, y=rc_series.values))
-fig_rc.update_layout(title="Risk Contribution % (MSR - sampled)", xaxis_title="Ticker", yaxis_title="Risk Contribution (%)")
+fig_rc.update_layout(title="Risk Contribution % (Mean Variance)", yaxis_title="Risk Contribution (%)")
 
-rc_png = os.path.join(output_root, "risk_contribution_msr_sampled.png")
-rc_html = os.path.join(output_root, "risk_contribution_msr_sampled.html")
+rc_png = os.path.join(output_root, "risk_contribution_meanVP.png")
+rc_html = os.path.join(output_root, "risk_contribution_meanVP.html")
 try:
     fig_rc.write_image(rc_png, engine="kaleido", scale=2)
     print(f"Saved risk contribution PNG: {rc_png}")
@@ -589,8 +589,8 @@ except Exception as e:
 # ---------------- Final prints
 print("\nSaved to folder:", output_root)
 print(" -", os.path.join(output_root, "weight_allocation_table.csv"))
-print(" -", os.path.join(output_root, "stock_table_mvp.csv"))
-print(" -", os.path.join(output_root, "stock_table_opr.csv"))
+print(" -", os.path.join(output_root, "stock_table_minimumVP.csv"))
+print(" -", os.path.join(output_root, "stock_table_meanVP.csv"))
 print(" -", os.path.join(output_root, "portfolio_summary.csv"))
 print(" -", os.path.join(output_root, "portfolio_results_clean.xlsx"))
 print(" - EF Plot:", png_path if os.path.exists(png_path) else html_path)
@@ -609,6 +609,26 @@ print(pd.DataFrame([{
     "AnnualRisk_pct": round(msr_vol_pct,2),
     "Sharpe": round(msr_sh,3)
 }]))
+
+# ---------------- Cleanup legacy files in output/ ----------------
+files_to_delete = [
+    r"output\portfolio_results_clean.xlsx",
+    r"output\portfolio_summary.csv",
+    r"output\stock_table_meanVP.csv",
+    r"output\stock_table_minimumVP.csv",
+    r"output\weight_allocation_table.csv"
+]
+
+for file_path in files_to_delete:
+    if os.path.exists(file_path):
+        try:
+            os.remove(file_path)
+            print(f"Deleted: {file_path}")
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+    else:
+        print(f"File not found: {file_path}")
+# ---------------- Done ----------------
 
 print()
 print("Historical data used from:", returns_hist_intersection.index.min() if not returns_hist_intersection.empty else "N/A")

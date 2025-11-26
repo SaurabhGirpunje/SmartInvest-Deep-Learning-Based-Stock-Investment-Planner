@@ -685,7 +685,7 @@ elif mode == "Portfolio Builder":
                 random_results = {"weights": [], "ret": [], "vol": [], "sharpe": []}
                 mu_vec_clean = mu_clean.reindex(clean_tickers).values
                 cov_mat_clean = cov_clean.reindex(index=clean_tickers, columns=clean_tickers).values
-                cov_mat_clean += np.eye(n_clean) * 1e-10
+                cov_mat_clean += np.eye(n_clean) * 1e-10  # numerical stability 1e-10
 
                 for i in range(N_RANDOM_PORTFOLIOS):
                     w = np.random.random(n_clean)
@@ -784,11 +784,22 @@ elif mode == "Portfolio Builder":
                 # weight allocation table
                 weight_table = pd.DataFrame({
                     "Stock": all_tickers,
-                    "Min-Risk": w_mvp_series.round(4).values,
-                    "Opt-Risk": w_msr_series.round(4).values
+                    "Minimum Risk": w_mvp_series.apply(lambda x: f"{x:.4f}"),
+                    "Mean Risk": w_msr_series.apply(lambda x: f"{x:.4f}")
                 })
-                weight_table = pd.concat([weight_table, pd.DataFrame([{"Stock": "Annual Return (%)", "Min-Risk": round(mvp_ret_pct, 2), "Opt-Risk": round(msr_ret_pct, 2)}])], ignore_index=True)
-                weight_table = pd.concat([weight_table, pd.DataFrame([{"Stock": "Annual Risk (%)", "Min-Risk": round(mvp_vol_pct, 2), "Opt-Risk": round(msr_vol_pct, 2)}])], ignore_index=True)
+                weight_table = pd.concat([
+                    weight_table,
+                    pd.DataFrame([{
+                        "Stock": "Annual Return (%)",
+                        "Minimum Risk": f"{mvp_ret_pct:.2f}",
+                        "Mean Risk": f"{msr_ret_pct:.2f}"
+                    }]),
+                    pd.DataFrame([{
+                        "Stock": "Annual Risk (%)",
+                        "Minimum Risk": f"{mvp_vol_pct:.2f}",
+                        "Mean Risk": f"{msr_vol_pct:.2f}"
+                    }])
+                ], ignore_index=True)
 
                 # stock tables
                 # Function to clean None/NaN into "-"
@@ -896,7 +907,7 @@ elif mode == "Portfolio Builder":
                 final_mvp_table = build_stock_table(
                     "MVP",
                     rows_mvp,
-                    invested_mvp.sum(),
+                    round(invested_mvp.sum(),2),
                     round(actual_value_mvp.sum(),2),
                     round(pred_value_mvp.sum(),2),
                     mvp_actual_roi,
@@ -906,7 +917,7 @@ elif mode == "Portfolio Builder":
                 final_msr_table = build_stock_table(
                     "MSR",
                     rows_msr,
-                    invested_msr.sum(),
+                    round(invested_msr.sum(),2),
                     round(actual_value_msr.sum(),2),
                     round(pred_value_msr.sum(),2),
                     msr_actual_roi,
@@ -996,21 +1007,12 @@ elif mode == "Portfolio Builder":
                         colorscale="Viridis",
                         showscale=True,
                         colorbar=dict(
-                            title=dict(text="Sharpe", font=dict(color="black")),  # title with visible color
-                            tickfont=dict(color="black")                           # tick numbers visible
+                            title=dict(text="Sharpe", font=dict(color="black")),
+                            tickfont=dict(color="black")
                         ),
                         opacity=0.55
                     ),
                     name="Random Portfolios"
-                ))
-
-                # Efficient frontier curve
-                fig_frontier.add_trace(go.Scatter(
-                    x=frontier_vols_pct,
-                    y=frontier_rets_pct,
-                    mode="lines",
-                    line=dict(width=4, color="blue"),
-                    name="Efficient Frontier"
                 ))
 
                 # MVP marker
@@ -1019,14 +1021,14 @@ elif mode == "Portfolio Builder":
                     y=[mvp_ret_pct],
                     mode="markers+text",
                     marker=dict(size=14, color="red", symbol="star"),
-                    text=["MVP"],
+                    text=["Min Var"],
                     textposition="top center",
                     textfont=dict(
-                        color="darkgreen",   # visible text color
-                        size=14,             # text size
-                        family="Arial Black" # bold font
+                        color="darkgreen",
+                        size=14,
+                        family="Arial Black"
                     ),
-                    name="Min Variance (sampled)"
+                    name="Minimum Variance"
                 ))
 
                 # MSR marker
@@ -1035,16 +1037,15 @@ elif mode == "Portfolio Builder":
                     y=[msr_ret_pct],
                     mode="markers+text",
                     marker=dict(size=14, color="green", symbol="star"),
-                    text=["MSR"],
+                    text=["Mean Var"],
                     textposition="top center",
                     textfont=dict(
-                        color="darkred",  # choose a visible color
-                        size=14,          # adjust size as needed
-                        family="Arial Black"  # bold font
+                        color="darkred",
+                        size=14,
+                        family="Arial Black"
                     ),
-                    name="Max Sharpe (sampled)"
+                    name="Mean Variance"
                 ))
-
 
                 # Equal weight marker
                 fig_frontier.add_trace(go.Scatter(
@@ -1055,22 +1056,22 @@ elif mode == "Portfolio Builder":
                     text=["EW"],
                     textposition="top center",
                     textfont=dict(
-                        color="blue",        # visible text color
-                        size=14,             # text size
-                        family="Arial Black" # bold font
+                        color="blue",
+                        size=14,
+                        family="Arial Black"
                     ),
                     name="Equal Weight"
                 ))
-                # reduce axis width while keeping overall figure height so legend/colorbar don't overlap
+
+                # Reduce axis width (unchanged)
                 try:
                     xmin = min(frontier_vols_pct + rand_df_plot["vol_pct"].tolist()) * 0.9
                     xmax = max(frontier_vols_pct + rand_df_plot["vol_pct"].tolist()) * 1.05
                     fig_frontier.update_xaxes(range=[xmin, xmax])
                 except Exception:
-                    # fallback: automatic
                     pass
 
-                # Layout: make everything visible on white background
+                # Layout (background, grid, colors unchanged)
                 fig_frontier.update_layout(
                     xaxis=dict(
                         title=dict(text="Annual Volatility (%)", font=dict(color="black")),
@@ -1086,15 +1087,16 @@ elif mode == "Portfolio Builder":
                         showgrid=True,
                         gridcolor="lightgray"
                     ),
+
+                    # *** ONLY LEGEND UPDATED (copied from top code) ***
                     legend=dict(
-                        orientation="h",
-                        x=0, y=-0.2,        # adjust vertical position if needed
+                        x=1.2,
+                        y=1,
                         xanchor="left",
                         yanchor="top",
-                        font=dict(color="black", size=12),
-                        bordercolor="black",
-                        borderwidth=1
+                        font=dict(color="black", size=16)
                     ),
+
                     plot_bgcolor="white",
                     paper_bgcolor="white",
                     hovermode="closest",
@@ -1102,6 +1104,7 @@ elif mode == "Portfolio Builder":
                     width=700,
                     margin=dict(l=40, r=40, t=50, b=40)
                 )
+
 
 
                 # Allocation pie (MSR)
@@ -1171,9 +1174,6 @@ elif mode == "Portfolio Builder":
                     ]
                 )
 
-
-
-
                 # pack results
                 result["weight_table"] = weight_table
                 result["stock_table_mvp"] = final_mvp_table
@@ -1200,20 +1200,42 @@ elif mode == "Portfolio Builder":
                 # Allocation and Risk Contribution side-by-side
                 colA, colB = st.columns(2)
                 with colA:
-                    st.markdown("#### Asset Allocation % (MSR)")
+                    st.markdown("#### Asset Allocation % (Mean Variance)")
                     st.plotly_chart(pipeline_results["fig_pie"], use_container_width=True)
                 with colB:
-                    st.markdown("#### Risk Contribution % (MSR)")
+                    st.markdown("#### Risk Contribution % (Mean Variance)")
                     st.plotly_chart(pipeline_results["fig_rc"], use_container_width=True)
 
                 # Tables
                 st.markdown("#### Weight Allocation Table")
-                st.dataframe(pipeline_results["weight_table"])
+                df = pipeline_results["weight_table"]
 
-                st.markdown("#### Stock Table — MVP")
+                # Convert to HTML with centered headers + values
+                html_table = df.to_html(index=False, justify="center", classes="center-table")
+
+                st.markdown("""
+                    <style>
+                    table.center-table {
+                        width: 800px !important;        /* makes the table expand inside the container */
+                    }
+                    table.center-table th {
+                        text-align: center !important;
+                    }
+                    table.center-table td {
+                        text-align: center !important;
+                    }
+                    </style>
+                            
+                    <div style="width: 1000px; margin-left: auto; margin-right: auto;">
+                """, unsafe_allow_html=True)
+
+                st.markdown(html_table, unsafe_allow_html=True)
+                st.markdown("</div>", unsafe_allow_html=True)
+
+                st.markdown("#### Stock Table — Minimum Variance Portfolio")
                 st.dataframe(pipeline_results["stock_table_mvp"])
 
-                st.markdown("#### Stock Table — MSR")
+                st.markdown("#### Stock Table — Mean Variance Portfolio")
                 st.dataframe(pipeline_results["stock_table_msr"])
 
 # # Footer
