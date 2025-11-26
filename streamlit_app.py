@@ -678,7 +678,7 @@ elif mode == "Portfolio Builder":
                 cov_clean = cov.reindex(index=clean_tickers, columns=clean_tickers)
 
                 # Random portfolio sampling
-                N_RANDOM_PORTFOLIOS = 5000  # reduce a bit to keep UI snappy; adjust as needed
+                N_RANDOM_PORTFOLIOS = 10000  # reduce a bit to keep UI snappy; adjust as needed
                 RANDOM_SEED = 42
                 np.random.seed(RANDOM_SEED)
                 n_clean = len(clean_tickers)
