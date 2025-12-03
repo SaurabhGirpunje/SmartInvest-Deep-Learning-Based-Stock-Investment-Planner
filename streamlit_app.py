@@ -446,7 +446,7 @@ if mode == "Plots":
                                     row = metrics_df[metrics_df["Model"].str.lower() == model_name.split()[0].lower()]
                                     if not row.empty:
                                         st.markdown("**Metrics:**")
-                                        st.markdown(f"- RMSE: {row['RMSE'].values[0]:.2f}")
+                                        st.markdown(f"- RMSE: {row['RMSE'].values[0]:.4f}")
                                         st.markdown(f"- RMSE/Mean: {row['RMSE/MEAN'].values[0]:.4f}")
                                         st.markdown(f"- Directional Accuracy: {row['DirectionalAcc'].values[0]:.2f}%")
                                         st.markdown(f"- MAPE: {row['MAPE'].values[0]:.2f}")
