@@ -1,5 +1,5 @@
 # streamlit_app.py
-# Stock Prediction & Portfolio Dashboard — Streamlit (supports folder structure:
+# Stock Prediction & Portfolio Dashboard - Streamlit (supports folder structure:
 # output/stock_data/<SECTOR>/<STOCK>/... )
 #
 # Save at repo root (same level as output/ and data/). Run:
@@ -240,8 +240,7 @@ nav_html = textwrap.dedent(f"""
     height:80px;
 ">
   <div style="display:flex; align-items:center; gap:14px;">
-    <div style="font-size:42px; font-weight:900;">📈 Deep Trade Navigator</div>
-    <div style="font-size:16px; color:rgba(0,0,0,0.45); margin-top:8px;">— Dashboard</div>
+    <div style="font-size:42px; font-weight:900;">📈 SmartInvest: AI-Driven Stock Forecasting & Portfolio Planner</div>
   </div>
 </div>
 """)
@@ -360,7 +359,7 @@ else:
     with top_cols[2]:
         # show fixed risk-free rate as small text
         st.markdown(f"<small>Risk-free rate fixed at <b>{RISK_FREE_RATE*100:.2f}%</b></small>", unsafe_allow_html=True)
-        st.markdown(f"<small>Cutoff: <b>{CUTOFF_DATE.date()}</b> — Eval: <b>{EVAL_DATE.date()}</b></small>", unsafe_allow_html=True)
+        st.markdown(f"<small>Cutoff: <b>{CUTOFF_DATE.date()}</b> - Eval: <b>{EVAL_DATE.date()}</b></small>", unsafe_allow_html=True)
     with top_cols[3]:
         run_opt = st.button("Run Optimization")
 
@@ -370,7 +369,7 @@ else:
 # MODE: PLOTS
 # ----------------------
 if mode == "Plots":
-    st.markdown("### Plots — Actual vs Predicted")
+    st.markdown("### Plots - Actual vs Predicted")
 
     if 'selected_stocks' not in locals() or not selected_stocks:
         st.info("Select one or more stocks to view plots.")
@@ -395,7 +394,7 @@ if mode == "Plots":
                 stock_folder = OUTPUT_STOCK_DIR / assigned_sector / clicked_stock
                 files = list_stock_files(stock_folder)
 
-                st.markdown(f"### {clicked_stock} — {assigned_sector}")
+                st.markdown(f"### {clicked_stock} - {assigned_sector}")
                 st.markdown('<div class="stock-card">', unsafe_allow_html=True)
 
                 left, right = st.columns([2, 1])
@@ -529,7 +528,7 @@ if mode == "Plots":
 
 # MODE: DIRECTIONAL ACCURACY
 elif mode == "Directional Accuracy":
-    st.markdown("### Directional Accuracy — comparison across selected stocks")
+    st.markdown("### Directional Accuracy - comparison across selected stocks")
     if 'selected_stocks' not in locals() or not selected_stocks:
         st.info("Select stocks to show directional accuracy charts.")
     else:
@@ -1237,12 +1236,12 @@ elif mode == "Portfolio Builder":
 
                 st.markdown("<br>", unsafe_allow_html=True)  # Add a line break
 
-                st.markdown("#### Stock Table — Minimum Variance Portfolio")
+                st.markdown("#### Stock Table - Minimum Variance Portfolio")
                 st.dataframe(pipeline_results["stock_table_mvp"])
 
                 st.markdown("<br>", unsafe_allow_html=True)  # Add a line break
 
-                st.markdown("#### Stock Table — Mean Variance Portfolio")
+                st.markdown("#### Stock Table - Mean Variance Portfolio")
                 st.dataframe(pipeline_results["stock_table_msr"])
 
 # # Footer
